@@ -1,0 +1,243 @@
+/* ============================================
+   3D SOLAR SYSTEM - STYLES
+   Vanilla JS Version | GitHub Pages Ready
+   ============================================ */
+
+/* ---------- BASE RESET & VARIABLES ---------- */
+:root {
+    --space-bg: #000008;
+    --space-accent: #FDB813;
+    --glass-bg: rgba(255, 255, 255, 0.08);
+    --glass-border: rgba(255, 255, 255, 0.15);
+}
+
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: var(--space-bg);
+    color: white;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* ---------- CANVAS CONTAINER ---------- */
+#canvas-container canvas {
+    display: block;
+    outline: none;
+    touch-action: none;
+    cursor: grab;
+}
+
+#canvas-container canvas:active {
+    cursor: grabbing;
+}
+
+/* ---------- LOADING SCREEN ANIMATIONS ---------- */
+@keyframes pulse-sun {
+    0%, 100% { 
+        transform: scale(1); 
+        box-shadow: 0 0 60px rgba(253, 184, 19, 0.6);
+    }
+    50% { 
+        transform: scale(1.15); 
+        box-shadow: 0 0 80px rgba(253, 184, 19, 0.8);
+    }
+}
+
+@keyframes spin-slow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes spin-medium {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes spin-fast {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.animate-pulse-sun {
+    animation: pulse-sun 2s ease-in-out infinite;
+}
+
+.animate-spin-slow {
+    animation: spin-slow 4s linear infinite;
+}
+
+.animate-spin-medium {
+    animation: spin-medium 3s linear infinite;
+}
+
+.animate-spin-fast {
+    animation: spin-fast 2s linear infinite;
+}
+
+/* ---------- NAVIGATION BUTTONS ---------- */
+.nav-btn.active {
+    background-color: rgba(255, 255, 255, 0.2) !important;
+    color: white !important;
+}
+
+.nav-btn.active .nav-dot {
+    box-shadow: 0 0 12px currentColor;
+}
+
+/* ---------- PLANET OVERLAY ---------- */
+#planet-overlay.visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+/* Overlay entrance animation */
+#planet-overlay.visible #overlay-content {
+    animation: slideUpFadeIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes slideUpFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.96);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Fact cards staggered animation */
+.fact-card {
+    opacity: 0;
+    transform: translateY(10px);
+    animation: factCardIn 0.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes factCardIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ---------- GLASSMORPHISM UTILITIES ---------- */
+.glass-effect {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+}
+
+/* ---------- CUSTOM SCROLLBAR ---------- */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* ---------- TOOLTIP / LABEL STYLES ---------- */
+.planet-label {
+    position: absolute;
+    padding: 4px 12px;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px);
+    border-radius: 9999px;
+    font-size: 12px;
+    font-weight: 500;
+    color: white;
+    white-space: nowrap;
+    pointer-events: none;
+    transform: translate(-50%, -100%);
+    margin-top: -10px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    transition: opacity 0.2s ease;
+}
+
+/* ---------- RESPONSIVE ADJUSTMENTS ---------- */
+@media (max-width: 640px) {
+    #planet-overlay {
+        bottom: 0;
+        left: 0;
+        right: 0;
+        border-radius: 1.5rem 1.5rem 0 0;
+        max-height: 60vh;
+        overflow-y: auto;
+    }
+
+    #planet-overlay #overlay-content {
+        padding: 1.5rem;
+    }
+
+    #instructions-hint {
+        font-size: 11px;
+        bottom: 4rem;
+    }
+
+    .nav-btn span:not(.nav-dot) {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    #navigation-controls {
+        top: auto;
+        bottom: 2rem;
+        max-width: calc(100% - 2rem);
+    }
+
+    #navigation-controls > div {
+        padding: 0.5rem;
+        gap: 0.25rem;
+    }
+
+    .nav-btn {
+        padding: 0.5rem !important;
+    }
+}
+
+/* ---------- ACCESSIBILITY ---------- */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Focus visible states for keyboard navigation */
+button:focus-visible {
+    outline: 2px solid var(--space-accent);
+    outline-offset: 2px;
+}
+
+/* ---------- SELECTION DISABLED ON CANVAS ---------- */
+#canvas-container {
+    user-select: none;
+    -webkit-user-select: none;
+}
